@@ -1,5 +1,6 @@
 import curses
 import signal
+from clients import Client
 
 def handle_resize(stdscr):
     # Retrieve the new terminal size and update the screen
