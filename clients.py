@@ -15,8 +15,11 @@ class Client:
             self.update_phone(phone)
         self.address = address
 
-    def __str__(self):
+    def __repr__(self):
         return f"Client({self.__client_id}): {self.last_name}, {self.first_name} <{self.email}>"
+    
+    def __str__(self):
+        return f"Client: {self.last_name}, {self.first_name}\n<{self.email}> {self.phone}"
 
     def get_contact_info(self):
         """
@@ -49,14 +52,3 @@ class Client:
         """
         if len(new_phone) == 10:
             self.phone = f"({new_phone[:3]}) {new_phone[3:6]}-{new_phone[6:]}"
-# def main():
-    # client1 = Client(
-    #     "Johnathan",
-    #     "Dough",
-    #     "jd@example.net",
-    #     "2138675309"
-    # )
-#     print(client1)
-#     print(client1.get_contact_info())
-    
-# main()
