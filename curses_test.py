@@ -14,7 +14,7 @@ def hide_panel(panel_obj):
     panel.update_panels()
     curses.doupdate()
 
-def data_entry_form(stdscr,client1):
+def data_entry_form(stdscr: "curses._CursesWindow",client1: Client):
     curses.curs_set(1)  # Make the cursor visible
     curses.start_color()
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)

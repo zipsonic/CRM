@@ -40,7 +40,7 @@ class Client:
 
         :param new_email: New email address (str)
         """
-        valid = re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', new_email)
+        valid: re.Match[str] | None = re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', new_email)
         if valid:
             self.email = new_email
 
