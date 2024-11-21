@@ -60,12 +60,16 @@ def main(stdscr: 'curses._CursesWindow') -> None:
     stdscr.box()
     stdscr.addstr(curses.LINES-1,5,"[F2 Enter Client]")
 
-    clientdatawin: curses._CursesWindow = display_client_list(clientlist=clientlist)
+    startx = 62
+    starty = 0
+
+    for i, client in enumerate(iterable=clientlist):
+        for j, line in enumerate(iterable=client.get_contact_info().split("\n")):
+            stdscr.addstr((starty + j + 1 ) + ( i * 3),startx,line)
 
     while True:
 
         stdscr.refresh()
-        clientdatawin.refresh()
 
         key: int = stdscr.getch()
 
