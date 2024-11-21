@@ -17,19 +17,6 @@ def enter_client(clientlist: list[Client]) -> None:
     entrywin.refresh()
 
     
-def display_client_list(clientlist: list[Client]) -> 'curses._CursesWindow':
-    clientdatawin: curses._CursesWindow = curses.newwin(30,60,0,60)
-    clientdatawin.bkgd(' ',curses.color_pair(1))
-    clientdatapanel: panel._Curses_Panel = panel.new_panel(clientdatawin)
-    clientdatapanel.show()
-    clientdatawin.box()
-
-    for i, client in enumerate(iterable=clientlist):
-        for j, line in enumerate(iterable=client.get_contact_info().split("\n")):
-            clientdatawin.addstr((j+1)+(i*3),1,line)
-    
-    return clientdatawin
-
 def main(stdscr: 'curses._CursesWindow') -> None:
     curses.curs_set(0)
     stdscr.clear()
