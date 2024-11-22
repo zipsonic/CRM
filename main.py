@@ -1,6 +1,4 @@
 import curses
-import csv
-import os
 from curses import panel
 from clients import Client
 from readwrite import *
@@ -39,7 +37,6 @@ def enter_client(clientlist: list[Client]) -> None:
             # Display the label and the input data
             entrywin.addstr(y, x - len(name) - 1, f"{name}: ")
             entrywin.addstr(y, x, input_data[i])
-
 
 
         # Move the cursor to the active field, right after the colon and current input text
@@ -93,21 +90,6 @@ def main(stdscr: 'curses._CursesWindow') -> None:
     #initialize Client List
     clientlist: list[Client] = read_list()
 
-    # Sample Data ---- REMOVE ME
-    # clientlist.append(Client(
-    #     "Johnathan",
-    #     "Dough",
-    #     "jd@example.net",
-    #     "2138675309"
-    # ))
-    # clientlist.append(Client(
-    #     "Jane",
-    #     "Doe",
-    #     "jdoe@example.net",
-    #     "3108675309"
-    # ))
-    # End Sample Data ----- REMOVE ME
-
     #Initialize color pairs
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
     curses.init_pair(2,curses.COLOR_BLACK, curses.COLOR_GREEN)
@@ -120,12 +102,14 @@ def main(stdscr: 'curses._CursesWindow') -> None:
         stdscr.addstr(curses.LINES-1,5,"[F2 Enter Client]")
         stdscr.addstr(curses.LINES-1,curses.COLS-15,"[ESC to Exit]")
 
-        startx: int = int(curses.COLS / 2)
-        starty: int = 0
+        startx: int = int(curses.COLS / 5 * 3)
 
         for i, client in enumerate(iterable=clientlist):
-            for j, line in enumerate(iterable=client.get_contact_info().split("\n")):
-                stdscr.addstr((starty + j + 1 ) + ( i * 3),startx,line)
+            starty: int = 1 + (i * 2)
+            line1: str = f"{client.last_name}, {client.first_name}"
+            line2: str = f"   {client.display_phone()}| {client.email}"
+            stdscr.addstr(starty,startx,line1)
+            stdscr.addstr(starty+1,startx,line2)
 
         stdscr.refresh()
 
@@ -137,10 +121,10 @@ def main(stdscr: 'curses._CursesWindow') -> None:
 
         if key == 27:
             break
+
     if len(clientlist) > 0:
         save_list(clientlist)
         
-
 
 if __name__ == "__main__":
     curses.wrapper(main)

@@ -16,7 +16,7 @@ class Client:
         if client_id:
             self.client_id: uuid.UUID = uuid.UUID(client_id)
         else:
-            self.client_id: uuid.UUID = uuid.uuid4()
+            self.client_id = uuid.uuid4()
         self.first_name: str = first_name
         self.last_name: str = last_name
         if email:
@@ -31,6 +31,7 @@ class Client:
     
     def __str__(self) -> str:
         return f"Client: {self.last_name}, {self.first_name}\n<{self.email}> {self.phone}"
+
 
     def get_contact_info(self) -> str:
         """
@@ -57,9 +58,7 @@ class Client:
 
     def display_phone(self) -> str:
         """
-        Updates the client's phone number. Checks for digit length (10), then formats for screen.
-
-        :param new_phone: New phone number (str)
+        Formats and displays 10 digit phone numbers
         """
         if len(self.phone) == 10:
             return f"({self.phone[:3]}) {self.phone[3:6]}-{self.phone[6:]}"
