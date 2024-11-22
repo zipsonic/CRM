@@ -1,6 +1,9 @@
 import curses
+import csv
+import os
 from curses import panel
 from clients import Client
+from readwrite import *
 
 def enter_client(clientlist: list[Client]) -> None:
     curses.curs_set(1)
@@ -88,21 +91,21 @@ def main(stdscr: 'curses._CursesWindow') -> None:
     stdscr.clear()
 
     #initialize Client List
-    clientlist: list[Client] = []
+    clientlist: list[Client] = read_list()
 
     # Sample Data ---- REMOVE ME
-    clientlist.append(Client(
-        "Johnathan",
-        "Dough",
-        "jd@example.net",
-        "2138675309"
-    ))
-    clientlist.append(Client(
-        "Jane",
-        "Doe",
-        "jdoe@example.net",
-        "3108675309"
-    ))
+    # clientlist.append(Client(
+    #     "Johnathan",
+    #     "Dough",
+    #     "jd@example.net",
+    #     "2138675309"
+    # ))
+    # clientlist.append(Client(
+    #     "Jane",
+    #     "Doe",
+    #     "jdoe@example.net",
+    #     "3108675309"
+    # ))
     # End Sample Data ----- REMOVE ME
 
     #Initialize color pairs
@@ -134,6 +137,8 @@ def main(stdscr: 'curses._CursesWindow') -> None:
 
         if key == 27:
             break
+    if len(clientlist) > 0:
+        save_list(clientlist)
         
 
 
