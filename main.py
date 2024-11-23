@@ -14,7 +14,18 @@ def main(stdscr: 'curses._CursesWindow') -> None:
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
     curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_GREEN)
 
+    #Initialize which page of clients to display
+    listpage: int = 0
+    #Calculate max clients that can be displayed at one time
+    maxdisplayclients: int = int(curses.LINES/2) - 1
+
     while True:
+
+        #Calculate the max amount of clientlist pages - Can change on update
+        maxpages: int = int(len(clientlist)/maxdisplayclients) - 1
+
+        if len(clientlist) % maxdisplayclients > 0:
+            maxpages += 1
 
         startx: int = int(curses.COLS / 5 * 3)
 
@@ -29,10 +40,16 @@ def main(stdscr: 'curses._CursesWindow') -> None:
         for _ in range (curses.LINES-2):
             stdscr.addch(_+1,startx-1,curses.ACS_VLINE)
 
-        for i, client in enumerate(iterable=clientlist):
+        if listpage == maxpages:
+            endindex: int = len(clientlist) % maxdisplayclients
+        else:
+            endindex = maxdisplayclients
+
+        for i in range(0, endindex):
             starty: int = 1 + (i * 2)
-            line1: str = f"{client.last_name}, {client.first_name}"
-            line2: str = f"   {client.display_phone()}| {client.email}"
+            index: int = (listpage * maxdisplayclients) + i
+            line1: str = f"{clientlist[index].last_name}, {clientlist[index].first_name}"
+            line2: str = f"   {clientlist[index].display_phone()}| {clientlist[index].email}"
             stdscr.addstr(starty,startx,line1)
             stdscr.addstr(starty+1,startx,line2)
 
@@ -44,8 +61,18 @@ def main(stdscr: 'curses._CursesWindow') -> None:
             key = key
             enter_client(clientlist)
 
-        if key == 27:
+        if key == 27: #ESC Exits
             break
+
+        if key == curses.KEY_DOWN:
+            if listpage < maxpages:
+                listpage += 1
+
+        if key == curses.KEY_UP:
+            if listpage > 0:
+                listpage -= 1
+
+        stdscr.clear()
 
     if len(clientlist) > 0:
         save_list(clientlist)

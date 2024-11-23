@@ -6,7 +6,7 @@ def enter_client(clientlist: list[Client]) -> None:
 
     curses.curs_set(1)
 
-    panelheight: int = curses.LINES - 2
+    panelheight: int = curses.LINES - 1
     panelwidth: int = curses.COLS - int(curses.COLS / 5 * 3)
 
     entrywin: curses._CursesWindow = curses.newwin(panelheight,panelwidth,1,curses.COLS-panelwidth)
@@ -31,8 +31,8 @@ def enter_client(clientlist: list[Client]) -> None:
         entrywin.box()
 
         # Draw instructions
-        entrywin.addstr(1, 1, f"Enter Client Data. ESC to Exit")
-        entrywin.addstr(panelheight-1,5,"[F5 SAVE CLIENT]")
+        entrywin.addstr(1, 1, f"Enter Client Data.")
+        entrywin.addstr(panelheight-1,5,"[F5 SAVE CLIENT]----------[ESC to Exit]")
 
         # Display the input fields and their current values
         for i, (y, x, name) in enumerate(fields):
